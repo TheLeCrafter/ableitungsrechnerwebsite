@@ -41,7 +41,7 @@ export default {
     ableiten() {
       let ableitung = undefined;
       try {
-        ableitung = derivative(this.funktion, 'x', { simplify: true })
+        ableitung = derivative(this.funktion, 'x').toString().replace(" ", "");
       } catch (error) {
         //ignore
       }
