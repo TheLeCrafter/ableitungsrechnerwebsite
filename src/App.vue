@@ -16,9 +16,14 @@
 <script>
 import { derivative } from "mathjs";
 
+const routes = {
+  "/": this
+}
+
 export default {
   name: 'App',
   data: () => ({
+    currentPath: window.location.hash,
     funktion: '',
     regeln: [
       {id: 1, name: "Potenzregel (Beta)"},
@@ -35,6 +40,16 @@ export default {
     ableiten() {
       return derivative(this.funktion, 'x', { simplify: true });
     }
+  },
+  computed: {
+    currentView() {
+      return routes[this.currentPath.slice(1) || "/"] || "NotFound"
+    }
+  },
+  mounted() {
+    window.addEventListener('hashchange', () => {
+      this.currentPath = window.location.hash
+    })
   }
 }
 </script>
