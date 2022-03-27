@@ -1,4 +1,5 @@
 <template>
+  <component :is="currentView"/>
   <div id="app">
     <h1>Ableitungsrechner</h1>
     f(x)=<input v-model="funktion" placeholder="a*x^2+b*x+c"/><br><br>
@@ -38,12 +39,20 @@ export default {
   }),
   methods: {
     ableiten() {
-      return derivative(this.funktion, 'x', { simplify: true });
+      let ableitung = undefined;
+      try {
+        ableitung = derivative(this.funktion, 'x', { simplify: true })
+      } catch (error) {
+        //ignore
+      }
+      if (ableitung !== undefined) {
+        return ableitung;
+      } else return "Inkorrekter Term";
     }
   },
   computed: {
     currentView() {
-      return routes[this.currentPath.slice(1) || "/"] || "NotFound"
+      return routes[this.currentPath.slice(1) || "/"]
     }
   },
   mounted() {
